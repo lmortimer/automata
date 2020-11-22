@@ -157,9 +157,9 @@ let generateRule(ruleNumber: byte) =
 [<EntryPoint>]
 let main argv =
           
-    let rule150 = generateRule(150uy)
+    let rule62 = generateRule(62uy)
 
-    generatePng 1301 900 rule150 "rule150"
+    generatePng 1051 510 rule62 "rule62"
     
 //    let firstRow = generateStandardFirstRow 51
 //    let rows = generatePattern rule222 firstRow |> Seq.take 10

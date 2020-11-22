@@ -1,0 +1,5 @@
+.ionide/
+.idea/
+obj/
+bin/
+.ipynb_checkpoints/

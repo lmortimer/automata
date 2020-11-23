@@ -95,39 +95,31 @@ let drawGrid (grid: Cell seq seq) =
     |> String.concat "\n"
 
 
-let gridToPrimitive (grid: Cell seq seq) =
-    grid
-    |> Seq.map (fun row ->
-        row
-        |> Seq.map drawCell
-        |> Seq.toArray
-    )
-    |> Seq.toArray
-
 let generatePng cols rows pattern filename =
     
     let image = new Image<Rgba32>(cols, rows);
     let white = new Rgba32(255F, 255F, 100F, 1F);
     let black = new Rgba32(0f, 0f, 0f, 1F);
-
-    let firstRow = generateStandardFirstRow cols
     
     let grid =
-        generatePattern pattern firstRow
+        generateStandardFirstRow cols
+        |> generatePattern pattern
         |> Seq.take rows
-        |> gridToPrimitive
 
-    for rowIndex in 0 .. (grid.Length - 1) do
-        for columnIndex in 0 .. (grid.[rowIndex].Length - 1) do
+    let withIndexes x = x |> Seq.mapi (fun index item -> (index, item))
+    
+    for (rowIndex, row) in withIndexes grid do
+                
+        for (cellIndex, cell) in withIndexes row do
             
-            if grid.[rowIndex].[columnIndex] = "X" then
-                image.[columnIndex, rowIndex] <- black
-                
-            if grid.[rowIndex].[columnIndex] = "." then
-                image.[columnIndex, rowIndex] <- white
-                
-    image.Save(sprintf "%s.png" filename);
+            let colour =
+                match cell with
+                | Full -> black
+                | Empty -> white
+            
+            image.[cellIndex, rowIndex] <- colour
 
+    image.Save(sprintf "%s.png" filename)
 
 let generateRule(ruleNumber: byte) = 
     let ruleBitString = Convert.ToString(ruleNumber, 2).PadLeft(8, '0');
@@ -157,9 +149,9 @@ let generateRule(ruleNumber: byte) =
 [<EntryPoint>]
 let main argv =
           
-    let rule62 = generateRule(62uy)
+    let rule62 = generateRule(30uy)
 
-    generatePng 1051 510 rule62 "rule62"
+    generatePng 201 101 rule62 "rule62b"
     
 //    let firstRow = generateStandardFirstRow 51
 //    let rows = generatePattern rule222 firstRow |> Seq.take 10

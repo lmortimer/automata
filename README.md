@@ -1,3 +1,11 @@
+# Read First
+
+- [Cellular Automata in F#](https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/)
+
+# Notebooks
+
+- [Wolfram Cellular Automata F#](wolfram/WolframBasic.ipynb)
+
 # Local Setup
 
 - Install 

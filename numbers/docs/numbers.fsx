@@ -9,11 +9,11 @@ open SixLabors.ImageSharp.Processing;
 
 (**
 # Systems based on numbers
-The main concept in _A New Kind of Science_ by Stephen Wolfram is the exploration of complexity with very simple Cellular Automata. I looked at that in an earlier post [Cellular Automata with F#](https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/). Chapter four of _A New Kind of Science_ looks at systems based on numbers:
+The main concept discussed in _A New Kind of Science_ by Stephen Wolfram is the complexity that results from very simple Cellular Automata. I looked at that in an earlier post [Cellular Automata with F#](https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/). Chapter four of _A New Kind of Science_ looks at systems based on numbers:
 
 > The underlying rules for systems like cellular automata are however usually different from those for systems based on numbers. The main point is that the rules for cellular automata are always local: the new color of any particular cell depends only on the previous color of that cell and its immediate neighbors. But in systems based on numbers there is usually no such locality.
 
-Here we explore number sequences and visualise them on a black and white grid.
+Here we explore systems based on numbers and visualise them on a black and white grid.
 
 ## Representing Numbers
 If numbers are Platonic Forms then that in which we model them are numeral systems. Everyone reading this will be familiar with the base 10 decimal system of numbers, that's what we use in today's culture. But over the centuries humans have developed [different numeral systems](https://en.wikipedia.org/wiki/List_of_numeral_systems). A number is a number, but it can be represented in many different ways.

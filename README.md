@@ -1,16 +1,10 @@
 # Read First
 
 - [Cellular Automata in F#](https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/)
+- [Systems Based on Numbers in F#](https://isthisit.nz/posts/2022/systems-based-on-numbers-fsharp/)
 
-# Notebooks
+# Explorations
 
-- [Wolfram Cellular Automata F#](wolfram/WolframBasic.ipynb)
-
-- Install 
-  - [Jupyter Lab](https://jupyter.org/install)
-  - [.NET Interactive](https://github.com/dotnet/interactive/blob/main/docs/NotebooksLocalExperience.md)
-- Run `jupyter lab`. Open:
-  - `wolfram/WolframBasic.ipynb`
-
-# Literate Scripts
-- [Wolfram Sequences Based on Numbers](numbers/README.md)
+- [Cellular Automata in F#](wolfram/) - Jupyter notebook.
+- [Cellular Automate in F# Fable](wolfram-fable/) - F# Fable application.
+- [Systems Based on Numbers](numbers/) - Literate F# script.

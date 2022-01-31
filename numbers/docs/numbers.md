@@ -1,15 +1,15 @@
 # Systems based on numbers
 
-The main concept in **A New Kind of Science** by Stephen Wolfram is the exploration of complexity with very simple Cellular Automata. I looked at that in an earlier post [Cellular Automata with F#](https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/). Chapter four of **A New Kind of Science** looks at systems based on numbers:
+The main concept discussed in **A New Kind of Science** by Stephen Wolfram is the complexity that results from very simple Cellular Automata. I looked at that in an earlier post [Cellular Automata with F#](https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/). Chapter four of **A New Kind of Science** looks at systems based on numbers:
 
 > The underlying rules for systems like cellular automata are however usually different from those for systems based on numbers. The main point is that the rules for cellular automata are always local: the new color of any particular cell depends only on the previous color of that cell and its immediate neighbors. But in systems based on numbers there is usually no such locality.
 > 
 
-Here we explore number sequences and visualise them on a black and white grid.
+Here we explore systems based on numbers and visualise them on a black and white grid.
 
 ## Representing Numbers
 
-If numbers are Platonic Forms then that in which we model them are numeral systems. Everyone reading this will be familiar with the base 10 decimal system of numbers, that's what we use in our culture today. But over the centuries humans have developed [different numeral systems](https://en.wikipedia.org/wiki/List_of_numeral_systems). A number is a number, but it can be represented in many different ways.
+If numbers are Platonic Forms then that in which we model them are numeral systems. Everyone reading this will be familiar with the base 10 decimal system of numbers, that's what we use in today's culture. But over the centuries humans have developed [different numeral systems](https://en.wikipedia.org/wiki/List_of_numeral_systems). A number is a number, but it can be represented in many different ways.
 
 In this exercise we want to visualise sequences of numbers. We'll restrain ourselves to a very simple visualisation, that of just black and white cells - the same as we did with [Cellular Automata](https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/).
 
@@ -59,9 +59,9 @@ bigintAsBinary (bigint 99999999999999999UL)
 We'll start with very simple sequences:
 
 ```fsharp
-let addition = Seq.initInfinite (fun i -> bigint (i + 1))
+let increment = Seq.initInfinite (fun i -> bigint (i + 1))
 
-addition |> Seq.take 25 |> Seq.toList
+increment |> Seq.take 25 |> Seq.toList
 ```
 
 ```
@@ -104,7 +104,7 @@ primes |> Seq.take 25 |> Seq.toList
 ```
 
 ```fsharp
-generatePng 256 addition 4 "addition256"
+generatePng 256 increment 4 "addition256"
 generatePng 256 squares 4 "squares256"
 generatePng 256 primes 4 "primes256"
 ```
@@ -116,7 +116,7 @@ Addition | Squares | Primes
 
 ## Fibonacci
 
-The Fibonacci sequence is documented as early as 200 BCE and is known for emerging in [nature](https://en.wikipedia.org/wiki/Patterns_in_nature#Spirals). It's simple to generate; the next number in the sequence is the sum of the two preceding numbers.
+The Fibonacci sequence is documented as early as 200 BCE and is known for [emerging in nature](https://en.wikipedia.org/wiki/Patterns_in_nature#Spirals). It's simple to generate; the next number in the sequence is the sum of the two preceding numbers.
 
 To balance brevity and performance the number generator below is from [Rosetta Code](https://rosettacode.org/wiki/Fibonacci_sequence#F.23).
 

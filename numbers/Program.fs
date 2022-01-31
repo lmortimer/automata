@@ -12,4 +12,5 @@ let main argv =
     let script = Path.Combine(source, "docs/numbers.fsx")
 
     Literate.ConvertScriptFile(script, template, lineNumbers=false, fsiEvaluator=fsi)
+    Literate.ConvertScriptFile(script,  fsiEvaluator=fsi, outputKind=OutputKind.Markdown)
     0

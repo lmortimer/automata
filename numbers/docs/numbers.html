@@ -35,10 +35,11 @@
         <hr />
         <div class="container" id="fsdocs-content">
             <h1>Systems based on numbers</h1>
-<p><em>A New Kind of Science</em> by Stephen Wolfram is mainly known for it's demonstration of complexity with very simple Cellular Automata. We explored that concept in <a href="https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/">Cellular Automata with F#</a>. Chapter four of the book looks at systems based on numbers.</p>
+<p>The main concept in <em>A New Kind of Science</em> by Stephen Wolfram is the exploration of complexity with very simple Cellular Automata. I looked at that in an earlier post <a href="https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/">Cellular Automata with F#</a>. Chapter four of <em>A New Kind of Science</em> looks at systems based on numbers:</p>
 <blockquote>
 <p>The underlying rules for systems like cellular automata are however usually different from those for systems based on numbers. The main point is that the rules for cellular automata are always local: the new color of any particular cell depends only on the previous color of that cell and its immediate neighbors. But in systems based on numbers there is usually no such locality.</p>
 </blockquote>
+<p>Here we explore number sequences and visualise them on a black and white grid.</p>
 <h2>Representing Numbers</h2>
 <p>If numbers are Platonic Forms then that in which we model them are numeral systems. Everyone reading this will be familiar with the base 10 decimal system of numbers, that's what we use in our culture today. But over the centuries humans have developed <a href="https://en.wikipedia.org/wiki/List_of_numeral_systems">different numeral systems</a>. A number is a number, but it can be represented in many different ways.</p>
 <p>In this exercise we want to visualise sequences of numbers. We'll restrain ourselves to a very simple visualisation, that of just black and white cells - the same as we did with <a href="https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/">Cellular Automata</a>.</p>
@@ -108,96 +109,125 @@
 <p>To visualise a binary number we'll have a row of square cells. Each cell will correspond to a column. Columns with the value <em>1</em> will be coloured black, and those with <em>0</em> white.</p>
 <p>For example <em>17</em> is represented as <code>00010001</code> in binary and would be visualised as <code>□□□■□□□■</code>.</p>
 <h2>Big Numbers</h2>
-<p>The type <code>int</code> can store values up to 2,147,483,647. The numbers we're dealing with will get much larger than that so we'll use the type <code>bigint</code>. .NET has no built in way to show the binary representation of a <code>bigint</code>. Lucky for us Stuart Lang <a href="https://stu.dev/bigint-to-string-in-any-base-fsharp/">blogged</a> on the topic so we'll use the snippet he provides.</p>
+<p>The type <code>int</code> can store values up to 2,147,483,647. The numbers we're dealing with will get much larger than that so we'll use the type <code>bigint</code>. .NET has no built in way to show the binary representation of a <code>bigint</code>. Lucky for us Stuart Lang <a href="https://stu.dev/bigint-to-string-in-any-base-fsharp/">blogged</a> on the topic so we'll use the snippet he provides. Implementation hidden for brevity.</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// convertToBinary 99999999999999999</span>
 <span class="c">// F# compiler error: This number is outside the allowable range for 32-bit signed integers F# Compiler 1147</span>
 
-<span class="c">// implementation hidden for brevity</span>
 <span onmouseout="hideTip(event, 'fs32', 71)" onmouseover="showTip(event, 'fs32', 71)" class="fn">bigintAsBinary</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs22', 72)" onmouseover="showTip(event, 'fs22', 72)" class="fn">bigint</span> <span class="n">99999999999999999UL</span><span class="pn">)</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>"101100011010001010111100001011101100010011111111111111111"</code></pre></td></tr></table>
 <h2>Simple Sequences</h2>
-<p>We'll start with very simple sequences</p>
+<p>We'll start with very simple sequences:</p>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs79', 175)" onmouseover="showTip(event, 'fs79', 175)" class="id">addition</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 176)" onmouseover="showTip(event, 'fs42', 176)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs80', 177)" onmouseover="showTip(event, 'fs80', 177)" class="id">initInfinite</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs81', 178)" onmouseover="showTip(event, 'fs81', 178)" class="fn">i</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs22', 179)" onmouseover="showTip(event, 'fs22', 179)" class="fn">bigint</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs81', 180)" onmouseover="showTip(event, 'fs81', 180)" class="fn">i</span> <span class="o">+</span> <span class="n">1</span><span class="pn">)</span><span class="pn">)</span>
 
 <span onmouseout="hideTip(event, 'fs79', 181)" onmouseover="showTip(event, 'fs79', 181)" class="id">addition</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 182)" onmouseover="showTip(event, 'fs42', 182)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 183)" onmouseover="showTip(event, 'fs43', 183)" class="id">take</span> <span class="n">25</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 184)" onmouseover="showTip(event, 'fs42', 184)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 185)" onmouseover="showTip(event, 'fs44', 185)" class="id">toList</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>[1; 2; 3; 4; 5; 6; 7; 8; 9; 10; 11; 12; 13; 14; 15; 16; 17; 18; 19; 20; 21; 22;
  23; 24; 25]</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs82', 186)" onmouseover="showTip(event, 'fs82', 186)" class="id">multiplyBy2</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 187)" onmouseover="showTip(event, 'fs42', 187)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs80', 188)" onmouseover="showTip(event, 'fs80', 188)" class="id">initInfinite</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs81', 189)" onmouseover="showTip(event, 'fs81', 189)" class="fn">i</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs22', 190)" onmouseover="showTip(event, 'fs22', 190)" class="fn">bigint</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs81', 191)" onmouseover="showTip(event, 'fs81', 191)" class="fn">i</span> <span class="o">*</span> <span class="n">2</span><span class="pn">)</span><span class="pn">)</span>
-
-<span onmouseout="hideTip(event, 'fs82', 192)" onmouseover="showTip(event, 'fs82', 192)" class="id">multiplyBy2</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 193)" onmouseover="showTip(event, 'fs42', 193)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 194)" onmouseover="showTip(event, 'fs43', 194)" class="id">take</span> <span class="n">25</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 195)" onmouseover="showTip(event, 'fs42', 195)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 196)" onmouseover="showTip(event, 'fs44', 196)" class="id">toList</span>
-</code></pre>
-<table class="pre"><tr><td><pre><code>[0; 2; 4; 6; 8; 10; 12; 14; 16; 18; 20; 22; 24; 26; 28; 30; 32; 34; 36; 38; 40;
- 42; 44; 46; 48]</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs83', 197)" onmouseover="showTip(event, 'fs83', 197)" class="id">squares</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 198)" onmouseover="showTip(event, 'fs42', 198)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs80', 199)" onmouseover="showTip(event, 'fs80', 199)" class="id">initInfinite</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs81', 200)" onmouseover="showTip(event, 'fs81', 200)" class="fn">i</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs22', 201)" onmouseover="showTip(event, 'fs22', 201)" class="fn">bigint</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs81', 202)" onmouseover="showTip(event, 'fs81', 202)" class="fn">i</span> <span class="o">+</span> <span class="n">1</span><span class="pn">)</span> <span class="o">**</span> <span class="n">2</span><span class="pn">)</span>
-<span onmouseout="hideTip(event, 'fs83', 203)" onmouseover="showTip(event, 'fs83', 203)" class="id">squares</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 204)" onmouseover="showTip(event, 'fs42', 204)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 205)" onmouseover="showTip(event, 'fs43', 205)" class="id">take</span> <span class="n">25</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 206)" onmouseover="showTip(event, 'fs42', 206)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 207)" onmouseover="showTip(event, 'fs44', 207)" class="id">toList</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs82', 186)" onmouseover="showTip(event, 'fs82', 186)" class="id">squares</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 187)" onmouseover="showTip(event, 'fs42', 187)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs80', 188)" onmouseover="showTip(event, 'fs80', 188)" class="id">initInfinite</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs81', 189)" onmouseover="showTip(event, 'fs81', 189)" class="fn">i</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs22', 190)" onmouseover="showTip(event, 'fs22', 190)" class="fn">bigint</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs81', 191)" onmouseover="showTip(event, 'fs81', 191)" class="fn">i</span> <span class="o">+</span> <span class="n">1</span><span class="pn">)</span> <span class="o">**</span> <span class="n">2</span><span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs82', 192)" onmouseover="showTip(event, 'fs82', 192)" class="id">squares</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 193)" onmouseover="showTip(event, 'fs42', 193)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 194)" onmouseover="showTip(event, 'fs43', 194)" class="id">take</span> <span class="n">25</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 195)" onmouseover="showTip(event, 'fs42', 195)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 196)" onmouseover="showTip(event, 'fs44', 196)" class="id">toList</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>[1; 4; 9; 16; 25; 36; 49; 64; 81; 100; 121; 144; 169; 196; 225; 256; 289; 324;
  361; 400; 441; 484; 529; 576; 625]</code></pre></td></tr></table>
 <pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// source http://www.fssnip.net/3X</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs84', 208)" onmouseover="showTip(event, 'fs84', 208)" class="fn">isPrime</span> <span onmouseout="hideTip(event, 'fs8', 209)" onmouseover="showTip(event, 'fs8', 209)" class="fn">n</span> <span class="o">=</span>
-  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs85', 210)" onmouseover="showTip(event, 'fs85', 210)" class="fn">sqrt&#39;</span> <span class="o">=</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs86', 211)" onmouseover="showTip(event, 'fs86', 211)" class="fn">float</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs87', 212)" onmouseover="showTip(event, 'fs87', 212)" class="fn">sqrt</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs9', 213)" onmouseover="showTip(event, 'fs9', 213)" class="fn">int</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs8', 214)" onmouseover="showTip(event, 'fs8', 214)" class="fn">n</span> <span class="c">// square root of integer</span>
-  <span class="pn">[</span> <span class="n">2</span> <span class="o">..</span> <span onmouseout="hideTip(event, 'fs85', 215)" onmouseover="showTip(event, 'fs85', 215)" class="fn">sqrt&#39;</span> <span class="pn">]</span> <span class="c">// all numbers from 2 to sqrt&#39;</span>
-  <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 216)" onmouseover="showTip(event, 'fs12', 216)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs88', 217)" onmouseover="showTip(event, 'fs88', 217)" class="id">forall</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs28', 218)" onmouseover="showTip(event, 'fs28', 218)" class="fn">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs8', 219)" onmouseover="showTip(event, 'fs8', 219)" class="fn">n</span> <span class="o">%</span> <span onmouseout="hideTip(event, 'fs28', 220)" onmouseover="showTip(event, 'fs28', 220)" class="fn">x</span> <span class="o">&lt;&gt;</span> <span class="n">0</span><span class="pn">)</span> <span class="c">// no divisors</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs83', 197)" onmouseover="showTip(event, 'fs83', 197)" class="fn">isPrime</span> <span onmouseout="hideTip(event, 'fs8', 198)" onmouseover="showTip(event, 'fs8', 198)" class="fn">n</span> <span class="o">=</span>
+  <span class="k">let</span> <span onmouseout="hideTip(event, 'fs84', 199)" onmouseover="showTip(event, 'fs84', 199)" class="fn">sqrt&#39;</span> <span class="o">=</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs85', 200)" onmouseover="showTip(event, 'fs85', 200)" class="fn">float</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs86', 201)" onmouseover="showTip(event, 'fs86', 201)" class="fn">sqrt</span> <span class="o">&gt;</span><span class="pn">&gt;</span> <span onmouseout="hideTip(event, 'fs9', 202)" onmouseover="showTip(event, 'fs9', 202)" class="fn">int</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs8', 203)" onmouseover="showTip(event, 'fs8', 203)" class="fn">n</span> <span class="c">// square root of integer</span>
+  <span class="pn">[</span> <span class="n">2</span> <span class="o">..</span> <span onmouseout="hideTip(event, 'fs84', 204)" onmouseover="showTip(event, 'fs84', 204)" class="fn">sqrt&#39;</span> <span class="pn">]</span> <span class="c">// all numbers from 2 to sqrt&#39;</span>
+  <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 205)" onmouseover="showTip(event, 'fs12', 205)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs87', 206)" onmouseover="showTip(event, 'fs87', 206)" class="id">forall</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs28', 207)" onmouseover="showTip(event, 'fs28', 207)" class="fn">x</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs8', 208)" onmouseover="showTip(event, 'fs8', 208)" class="fn">n</span> <span class="o">%</span> <span onmouseout="hideTip(event, 'fs28', 209)" onmouseover="showTip(event, 'fs28', 209)" class="fn">x</span> <span class="o">&lt;&gt;</span> <span class="n">0</span><span class="pn">)</span> <span class="c">// no divisors</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs89', 221)" onmouseover="showTip(event, 'fs89', 221)" class="id">allPrimes</span> <span class="o">=</span>
-  <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs90', 222)" onmouseover="showTip(event, 'fs90', 222)" class="fn">allPrimes&#39;</span> <span onmouseout="hideTip(event, 'fs8', 223)" onmouseover="showTip(event, 'fs8', 223)" class="fn">n</span> <span class="o">=</span>
-    <span onmouseout="hideTip(event, 'fs38', 224)" onmouseover="showTip(event, 'fs38', 224)" class="fn">seq</span> <span class="pn">{</span> <span class="c">// sequences are lazy, so we can make them infinite</span>
-      <span class="k">if</span> <span onmouseout="hideTip(event, 'fs84', 225)" onmouseover="showTip(event, 'fs84', 225)" class="fn">isPrime</span> <span onmouseout="hideTip(event, 'fs8', 226)" onmouseover="showTip(event, 'fs8', 226)" class="fn">n</span> <span class="k">then</span>
-        <span class="k">yield</span> <span onmouseout="hideTip(event, 'fs22', 227)" onmouseover="showTip(event, 'fs22', 227)" class="fn">bigint</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 228)" onmouseover="showTip(event, 'fs8', 228)" class="fn">n</span><span class="pn">)</span>
-      <span class="k">yield!</span> <span onmouseout="hideTip(event, 'fs90', 229)" onmouseover="showTip(event, 'fs90', 229)" class="fn">allPrimes&#39;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 230)" onmouseover="showTip(event, 'fs8', 230)" class="fn">n</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span> <span class="c">// recursing</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs88', 210)" onmouseover="showTip(event, 'fs88', 210)" class="id">primes</span> <span class="o">=</span>
+  <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs89', 211)" onmouseover="showTip(event, 'fs89', 211)" class="fn">primes&#39;</span> <span onmouseout="hideTip(event, 'fs8', 212)" onmouseover="showTip(event, 'fs8', 212)" class="fn">n</span> <span class="o">=</span>
+    <span onmouseout="hideTip(event, 'fs38', 213)" onmouseover="showTip(event, 'fs38', 213)" class="fn">seq</span> <span class="pn">{</span> <span class="c">// sequences are lazy, so we can make them infinite</span>
+      <span class="k">if</span> <span onmouseout="hideTip(event, 'fs83', 214)" onmouseover="showTip(event, 'fs83', 214)" class="fn">isPrime</span> <span onmouseout="hideTip(event, 'fs8', 215)" onmouseover="showTip(event, 'fs8', 215)" class="fn">n</span> <span class="k">then</span>
+        <span class="k">yield</span> <span onmouseout="hideTip(event, 'fs22', 216)" onmouseover="showTip(event, 'fs22', 216)" class="fn">bigint</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 217)" onmouseover="showTip(event, 'fs8', 217)" class="fn">n</span><span class="pn">)</span>
+      <span class="k">yield!</span> <span onmouseout="hideTip(event, 'fs89', 218)" onmouseover="showTip(event, 'fs89', 218)" class="fn">primes&#39;</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs8', 219)" onmouseover="showTip(event, 'fs8', 219)" class="fn">n</span><span class="o">+</span><span class="n">1</span><span class="pn">)</span> <span class="c">// recursing</span>
     <span class="pn">}</span>
-  <span onmouseout="hideTip(event, 'fs90', 231)" onmouseover="showTip(event, 'fs90', 231)" class="fn">allPrimes&#39;</span> <span class="n">2</span> <span class="c">// starting from 2</span>
+  <span onmouseout="hideTip(event, 'fs89', 220)" onmouseover="showTip(event, 'fs89', 220)" class="fn">primes&#39;</span> <span class="n">2</span> <span class="c">// starting from 2</span>
 
-<span onmouseout="hideTip(event, 'fs89', 232)" onmouseover="showTip(event, 'fs89', 232)" class="id">allPrimes</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 233)" onmouseover="showTip(event, 'fs42', 233)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 234)" onmouseover="showTip(event, 'fs43', 234)" class="id">take</span> <span class="n">25</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 235)" onmouseover="showTip(event, 'fs42', 235)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 236)" onmouseover="showTip(event, 'fs44', 236)" class="id">toList</span>
+<span onmouseout="hideTip(event, 'fs88', 221)" onmouseover="showTip(event, 'fs88', 221)" class="id">primes</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 222)" onmouseover="showTip(event, 'fs42', 222)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 223)" onmouseover="showTip(event, 'fs43', 223)" class="id">take</span> <span class="n">25</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 224)" onmouseover="showTip(event, 'fs42', 224)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 225)" onmouseover="showTip(event, 'fs44', 225)" class="id">toList</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>[2; 3; 5; 7; 11; 13; 17; 19; 23; 29; 31; 37; 41; 43; 47; 53; 59; 61; 67; 71; 73;
  79; 83; 89; 97]</code></pre></td></tr></table>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 237)" onmouseover="showTip(event, 'fs34', 237)" class="fn">generatePng</span> <span class="n">256</span> <span onmouseout="hideTip(event, 'fs79', 238)" onmouseover="showTip(event, 'fs79', 238)" class="id">addition</span> <span class="n">4</span> <span class="s">&quot;addition256&quot;</span>
-<span onmouseout="hideTip(event, 'fs34', 239)" onmouseover="showTip(event, 'fs34', 239)" class="fn">generatePng</span> <span class="n">256</span> <span onmouseout="hideTip(event, 'fs82', 240)" onmouseover="showTip(event, 'fs82', 240)" class="id">multiplyBy2</span> <span class="n">4</span> <span class="s">&quot;multiply-by-2-256&quot;</span>
-<span onmouseout="hideTip(event, 'fs34', 241)" onmouseover="showTip(event, 'fs34', 241)" class="fn">generatePng</span> <span class="n">256</span> <span onmouseout="hideTip(event, 'fs83', 242)" onmouseover="showTip(event, 'fs83', 242)" class="id">squares</span> <span class="n">4</span> <span class="s">&quot;squares256&quot;</span>
-<span onmouseout="hideTip(event, 'fs34', 243)" onmouseover="showTip(event, 'fs34', 243)" class="fn">generatePng</span> <span class="n">256</span> <span onmouseout="hideTip(event, 'fs89', 244)" onmouseover="showTip(event, 'fs89', 244)" class="id">allPrimes</span> <span class="n">4</span> <span class="s">&quot;primes256&quot;</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 226)" onmouseover="showTip(event, 'fs34', 226)" class="fn">generatePng</span> <span class="n">256</span> <span onmouseout="hideTip(event, 'fs79', 227)" onmouseover="showTip(event, 'fs79', 227)" class="id">addition</span> <span class="n">4</span> <span class="s">&quot;addition256&quot;</span>
+<span onmouseout="hideTip(event, 'fs34', 228)" onmouseover="showTip(event, 'fs34', 228)" class="fn">generatePng</span> <span class="n">256</span> <span onmouseout="hideTip(event, 'fs82', 229)" onmouseover="showTip(event, 'fs82', 229)" class="id">squares</span> <span class="n">4</span> <span class="s">&quot;squares256&quot;</span>
+<span onmouseout="hideTip(event, 'fs34', 230)" onmouseover="showTip(event, 'fs34', 230)" class="fn">generatePng</span> <span class="n">256</span> <span onmouseout="hideTip(event, 'fs88', 231)" onmouseover="showTip(event, 'fs88', 231)" class="id">primes</span> <span class="n">4</span> <span class="s">&quot;primes256&quot;</span>
 </code></pre>
 <table>
 <thead>
 <tr class="header">
 <th><p>Addition</p></th>
-<th></th>
-<th><p>Multiply By 2</p></th>
-<th></th>
 <th><p>Squares</p></th>
-<th></th>
 <th><p>Primes</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><p><img src="./addition256.png" alt="Addition sequence" /></p></td>
-<td></td>
-<td><p><img src="./multiply-by-2-256.png" alt="MultiplyBy2 sequence" /></p></td>
-<td></td>
-<td><p><img src="./squares256.png" alt="Squares sequence" /></p></td>
-<td></td>
-<td><p><img src="./primes256.png" alt="Primes sequence" /></p></td>
+<td><p><img src="./static/gen/addition256.png" alt="Addition sequence" /></p></td>
+<td><p><img src="./static/gen/squares256.png" alt="Squares sequence" /></p></td>
+<td><p><img src="./static/gen/primes256.png" alt="Primes sequence" /></p></td>
 </tr>
 </tbody>
 </table>
 
 <h2>Fibonacci</h2>
-<p>Let's generate and plot the series of fibonacci numbers. GIVE EXPLANATION OF FIB NUMS?</p>
+<p>The Fibonacci sequence is documented as early as 200 BCE and is known for emerging in <a href="https://en.wikipedia.org/wiki/Patterns_in_nature#Spirals">nature</a>. It's simple to generate; the next number in the sequence is the sum of the two preceding numbers.</p>
 <p>To balance brevity and performance the number generator below is from <a href="https://rosettacode.org/wiki/Fibonacci_sequence#F.23">Rosetta Code</a>.</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs91', 245)" onmouseover="showTip(event, 'fs91', 245)" class="id">fibonacci</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 246)" onmouseover="showTip(event, 'fs42', 246)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs92', 247)" onmouseover="showTip(event, 'fs92', 247)" class="id">unfold</span> <span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs93', 248)" onmouseover="showTip(event, 'fs93', 248)" class="fn">x</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs94', 249)" onmouseover="showTip(event, 'fs94', 249)" class="fn">y</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs95', 250)" onmouseover="showTip(event, 'fs95', 250)" class="uc">Some</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs93', 251)" onmouseover="showTip(event, 'fs93', 251)" class="fn">x</span><span class="pn">,</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs94', 252)" onmouseover="showTip(event, 'fs94', 252)" class="fn">y</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs93', 253)" onmouseover="showTip(event, 'fs93', 253)" class="fn">x</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs94', 254)" onmouseover="showTip(event, 'fs94', 254)" class="fn">y</span><span class="pn">)</span><span class="pn">)</span><span class="pn">)</span> <span class="pn">(</span><span class="m">0I</span><span class="pn">,</span><span class="m">1I</span><span class="pn">)</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs90', 232)" onmouseover="showTip(event, 'fs90', 232)" class="id">fibonacci</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs42', 233)" onmouseover="showTip(event, 'fs42', 233)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs91', 234)" onmouseover="showTip(event, 'fs91', 234)" class="id">unfold</span> <span class="pn">(</span><span class="k">fun</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs92', 235)" onmouseover="showTip(event, 'fs92', 235)" class="fn">x</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs93', 236)" onmouseover="showTip(event, 'fs93', 236)" class="fn">y</span><span class="pn">)</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs94', 237)" onmouseover="showTip(event, 'fs94', 237)" class="uc">Some</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs92', 238)" onmouseover="showTip(event, 'fs92', 238)" class="fn">x</span><span class="pn">,</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs93', 239)" onmouseover="showTip(event, 'fs93', 239)" class="fn">y</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs92', 240)" onmouseover="showTip(event, 'fs92', 240)" class="fn">x</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs93', 241)" onmouseover="showTip(event, 'fs93', 241)" class="fn">y</span><span class="pn">)</span><span class="pn">)</span><span class="pn">)</span> <span class="pn">(</span><span class="m">0I</span><span class="pn">,</span><span class="m">1I</span><span class="pn">)</span>
 
-<span onmouseout="hideTip(event, 'fs91', 255)" onmouseover="showTip(event, 'fs91', 255)" class="id">fibonacci</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 256)" onmouseover="showTip(event, 'fs42', 256)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 257)" onmouseover="showTip(event, 'fs43', 257)" class="id">take</span> <span class="n">16</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 258)" onmouseover="showTip(event, 'fs42', 258)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 259)" onmouseover="showTip(event, 'fs44', 259)" class="id">toList</span>
+<span onmouseout="hideTip(event, 'fs90', 242)" onmouseover="showTip(event, 'fs90', 242)" class="id">fibonacci</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 243)" onmouseover="showTip(event, 'fs42', 243)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs43', 244)" onmouseover="showTip(event, 'fs43', 244)" class="id">take</span> <span class="n">16</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs42', 245)" onmouseover="showTip(event, 'fs42', 245)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs44', 246)" onmouseover="showTip(event, 'fs44', 246)" class="id">toList</span>
 </code></pre>
 <table class="pre"><tr><td><pre><code>[0; 1; 1; 2; 3; 5; 8; 13; 21; 34; 55; 89; 144; 233; 377; 610]</code></pre></td></tr></table>
-<p>Let's visualise the first 512 fibonacci numbers on an image</p>
-<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 260)" onmouseover="showTip(event, 'fs34', 260)" class="fn">generatePng</span> <span class="n">512</span> <span onmouseout="hideTip(event, 'fs91', 261)" onmouseover="showTip(event, 'fs91', 261)" class="id">fibonacci</span> <span class="n">2</span> <span class="s">&quot;fib512&quot;</span>
+<p>Plotting squares with side width equal to numbers in the fibonacci sequence, and then drawing an arc across them gives us the fibonacci spiral.</p>
+<table>
+<thead>
+<tr class="header">
+<th><p>Fibonacci Squares</p></th>
+<th><p>Fibonacci Spiral</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p><img src="static/fib-squares.png" alt="Fibonacci Squares" /></p></td>
+<td><p><img src="static/fib-spiral.png" alt="Fibonacci Spiral" /></p></td>
+</tr>
+<tr class="even">
+<td><p><a href="https://en.wikipedia.org/wiki/File:Fibonacci_Squares.svg#hero">Source</a></p></td>
+<td><p><a href="https://en.wikipedia.org/wiki/File:Fibonacci_Spiral.svg#hero">Source</a></p></td>
+</tr>
+</tbody>
+</table>
+
+<p>Visualising the first 512 fibonacci numbers as binary also gives us an interesting result. In the largely scattered mess there are repeated patterns of upside down right-angled triangles.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs34', 247)" onmouseover="showTip(event, 'fs34', 247)" class="fn">generatePng</span> <span class="n">512</span> <span onmouseout="hideTip(event, 'fs90', 248)" onmouseover="showTip(event, 'fs90', 248)" class="id">fibonacci</span> <span class="n">3</span> <span class="s">&quot;fib512&quot;</span>
 </code></pre>
-<p><img src="./fib512.png" alt="Fibonnaci sequence" /></p>
-<p>It's random although we do see repeated patterns of upside down right-angled triangles.</p>
-<p>What about the square number sequence</p>
+<p><img src="./static/gen/fib512.png#hero" alt="Fibonnaci sequence" /></p>
+<h2>Pascal's Triangle</h2>
+<p>Related to the Fibonacci Sequence is Pascal's Triangle. This is a sequence where numbers in rows are the sum of two parent numbers in the row above them. In some ways this is similar to how we generate <a href="https://isthisit.nz/posts/2020/cellular-automata-in-fsharp/">Cellular Automata</a>. The image below shows that summing shallow diagonals of Pascal's Triangle generates the Fibonacci Sequence.</p>
+<p><img src="static/pascals-triangle.png#hero" alt="Pascal's Triangle" /></p>
+<p><a href="https://commons.wikimedia.org/wiki/File:PascalTriangleFibanacci.svg">Source</a></p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// source: https://rosettacode.org/wiki/Pascal%27s_triangle#F.23</span>
+<span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs95', 249)" onmouseover="showTip(event, 'fs95', 249)" class="fn">nextPascalrow</span> <span onmouseout="hideTip(event, 'fs96', 250)" onmouseover="showTip(event, 'fs96', 250)" class="fn">l</span> <span class="o">=</span>
+    <span class="k">match</span> <span onmouseout="hideTip(event, 'fs96', 251)" onmouseover="showTip(event, 'fs96', 251)" class="fn">l</span> <span class="k">with</span>
+    <span class="pn">|</span> <span class="pn">[</span><span class="pn">]</span>      <span class="k">-&gt;</span> <span class="pn">[</span><span class="pn">]</span>
+    <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs97', 252)" onmouseover="showTip(event, 'fs97', 252)" class="fn">h</span> <span class="uc">::</span> <span class="pn">[</span><span class="pn">]</span> <span class="k">-&gt;</span> <span class="pn">[</span><span onmouseout="hideTip(event, 'fs22', 253)" onmouseover="showTip(event, 'fs22', 253)" class="fn">bigint</span> <span class="n">1</span><span class="pn">]</span>
+    <span class="pn">|</span> <span onmouseout="hideTip(event, 'fs97', 254)" onmouseover="showTip(event, 'fs97', 254)" class="fn">h</span> <span class="uc">::</span> <span onmouseout="hideTip(event, 'fs98', 255)" onmouseover="showTip(event, 'fs98', 255)" class="fn">t</span>  <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs97', 256)" onmouseover="showTip(event, 'fs97', 256)" class="fn">h</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs98', 257)" onmouseover="showTip(event, 'fs98', 257)" class="fn">t</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs99', 258)" onmouseover="showTip(event, 'fs99', 258)" class="id">Head</span> <span class="uc">::</span> <span onmouseout="hideTip(event, 'fs95', 259)" onmouseover="showTip(event, 'fs95', 259)" class="fn">nextPascalrow</span> <span onmouseout="hideTip(event, 'fs98', 260)" onmouseover="showTip(event, 'fs98', 260)" class="fn">t</span>
+ 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs100', 261)" onmouseover="showTip(event, 'fs100', 261)" class="fn">pascalsTriangle</span> <span onmouseout="hideTip(event, 'fs8', 262)" onmouseover="showTip(event, 'fs8', 262)" class="fn">n</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs12', 263)" onmouseover="showTip(event, 'fs12', 263)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs101', 264)" onmouseover="showTip(event, 'fs101', 264)" class="id">scan</span><span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs96', 265)" onmouseover="showTip(event, 'fs96', 265)" class="fn">l</span> <span onmouseout="hideTip(event, 'fs81', 266)" onmouseover="showTip(event, 'fs81', 266)" class="fn">i</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs22', 267)" onmouseover="showTip(event, 'fs22', 267)" class="fn">bigint</span> <span class="n">1</span> <span class="uc">::</span> <span onmouseout="hideTip(event, 'fs95', 268)" onmouseover="showTip(event, 'fs95', 268)" class="fn">nextPascalrow</span> <span onmouseout="hideTip(event, 'fs96', 269)" onmouseover="showTip(event, 'fs96', 269)" class="fn">l</span><span class="pn">)</span> <span class="pn">[</span><span onmouseout="hideTip(event, 'fs22', 270)" onmouseover="showTip(event, 'fs22', 270)" class="fn">bigint</span> <span class="n">1</span><span class="pn">]</span> <span class="pn">[</span><span class="n">1</span> <span class="o">..</span> <span onmouseout="hideTip(event, 'fs8', 271)" onmouseover="showTip(event, 'fs8', 271)" class="fn">n</span><span class="pn">]</span>
+
+<span onmouseout="hideTip(event, 'fs100', 272)" onmouseover="showTip(event, 'fs100', 272)" class="fn">pascalsTriangle</span> <span class="n">10</span>
+</code></pre>
+<table class="pre"><tr><td><pre><code>[[1]; [1; 1]; [1; 2; 1]; [1; 3; 3; 1]; [1; 4; 6; 4; 1]; [1; 5; 10; 10; 5; 1];
+ [1; 6; 15; 20; 15; 6; 1]; [1; 7; 21; 35; 35; 21; 7; 1];
+ [1; 8; 28; 56; 70; 56; 28; 8; 1]; [1; 9; 36; 84; 126; 126; 84; 36; 9; 1];
+ [1; 10; 45; 120; 210; 252; 210; 120; 45; 10; 1]]</code></pre></td></tr></table>
+<p>Here we visualise the 256th row of Pascal's Triangle.</p>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs102', 273)" onmouseover="showTip(event, 'fs102', 273)" class="id">pascalsTriangleRow</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs100', 274)" onmouseover="showTip(event, 'fs100', 274)" class="fn">pascalsTriangle</span> <span class="n">256</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 275)" onmouseover="showTip(event, 'fs12', 275)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs103', 276)" onmouseover="showTip(event, 'fs103', 276)" class="id">last</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 277)" onmouseover="showTip(event, 'fs12', 277)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs104', 278)" onmouseover="showTip(event, 'fs104', 278)" class="id">toSeq</span>
+
+<span onmouseout="hideTip(event, 'fs34', 279)" onmouseover="showTip(event, 'fs34', 279)" class="fn">generatePng</span> <span class="n">257</span> <span onmouseout="hideTip(event, 'fs102', 280)" onmouseover="showTip(event, 'fs102', 280)" class="id">pascalsTriangleRow</span> <span class="n">3</span> <span class="s">&quot;pascalsRow256&quot;</span>
+</code></pre>
+<p><img src="./static/gen/pascalsRow256.png" alt="Pascal's Row" /></p>
+<h2>Conclusion</h2>
+<p>This has been a short exploration of systems based on numbers. Below is a function for generating the visualisations. This entire blog post is a Literate F# script. You can execute it locally to generate the images. View the source here.</p>
 <h2>Generate Image Source Code</h2>
 <p>At a high level this function takes a sequences of <code>bigint</code>s, converts them to binary, and draws them on an image.
 A couple of considerations go into this function:</p>
@@ -251,7 +281,7 @@ A couple of considerations go into this function:</p>
             <span onmouseout="hideTip(event, 'fs71', 161)" onmouseover="showTip(event, 'fs71', 161)" class="fn">drawingLocations</span>
             <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs12', 162)" onmouseover="showTip(event, 'fs12', 162)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs73', 163)" onmouseover="showTip(event, 'fs73', 163)" class="id">iter</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs74', 164)" onmouseover="showTip(event, 'fs74', 164)" class="fn">v</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs53', 165)" onmouseover="showTip(event, 'fs53', 165)" class="d">image</span><span class="pn">.</span><span class="pn">[</span><span onmouseout="hideTip(event, 'fs75', 166)" onmouseover="showTip(event, 'fs75', 166)" class="fn">fst</span> <span onmouseout="hideTip(event, 'fs74', 167)" onmouseover="showTip(event, 'fs74', 167)" class="fn">v</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs76', 168)" onmouseover="showTip(event, 'fs76', 168)" class="fn">snd</span> <span onmouseout="hideTip(event, 'fs74', 169)" onmouseover="showTip(event, 'fs74', 169)" class="fn">v</span><span class="pn">]</span> <span class="k">&lt;-</span> <span onmouseout="hideTip(event, 'fs67', 170)" onmouseover="showTip(event, 'fs67', 170)" class="fn">colour</span><span class="pn">)</span>
 
-    <span onmouseout="hideTip(event, 'fs53', 171)" onmouseover="showTip(event, 'fs53', 171)" class="d">image</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs77', 172)" onmouseover="showTip(event, 'fs77', 172)" class="id">Save</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs78', 173)" onmouseover="showTip(event, 'fs78', 173)" class="fn">sprintf</span> <span class="s">&quot;</span><span class="pf">%s</span><span class="s">.png&quot;</span> <span onmouseout="hideTip(event, 'fs40', 174)" onmouseover="showTip(event, 'fs40', 174)" class="fn">filename</span><span class="pn">)</span>
+    <span onmouseout="hideTip(event, 'fs53', 171)" onmouseover="showTip(event, 'fs53', 171)" class="d">image</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs77', 172)" onmouseover="showTip(event, 'fs77', 172)" class="id">Save</span><span class="pn">(</span><span onmouseout="hideTip(event, 'fs78', 173)" onmouseover="showTip(event, 'fs78', 173)" class="fn">sprintf</span> <span class="s">&quot;static/gen/</span><span class="pf">%s</span><span class="s">.png&quot;</span> <span onmouseout="hideTip(event, 'fs40', 174)" onmouseover="showTip(event, 'fs40', 174)" class="fn">filename</span><span class="pn">)</span>
 </code></pre>
 <h2>Further Reading</h2>
 <ul>
@@ -459,22 +489,31 @@ type Rgba32 =
 <div class="fsdocs-tip" id="fs79">val addition : seq&lt;bigint&gt;</div>
 <div class="fsdocs-tip" id="fs80">val initInfinite : initializer:(int -&gt; &#39;T) -&gt; seq&lt;&#39;T&gt;</div>
 <div class="fsdocs-tip" id="fs81">val i : int</div>
-<div class="fsdocs-tip" id="fs82">val multiplyBy2 : seq&lt;bigint&gt;</div>
-<div class="fsdocs-tip" id="fs83">val squares : seq&lt;bigint&gt;</div>
-<div class="fsdocs-tip" id="fs84">val isPrime : n:int -&gt; bool</div>
-<div class="fsdocs-tip" id="fs85">val sqrt&#39; : int</div>
-<div class="fsdocs-tip" id="fs86">Multiple items<br />val float : value:&#39;T -&gt; float (requires member op_Explicit)<br /><br />--------------------<br />[&lt;Struct&gt;]
+<div class="fsdocs-tip" id="fs82">val squares : seq&lt;bigint&gt;</div>
+<div class="fsdocs-tip" id="fs83">val isPrime : n:int -&gt; bool</div>
+<div class="fsdocs-tip" id="fs84">val sqrt&#39; : int</div>
+<div class="fsdocs-tip" id="fs85">Multiple items<br />val float : value:&#39;T -&gt; float (requires member op_Explicit)<br /><br />--------------------<br />[&lt;Struct&gt;]
 type float = Double<br /><br />--------------------<br />type float&lt;&#39;Measure&gt; =
   float</div>
-<div class="fsdocs-tip" id="fs87">val sqrt : value:&#39;T -&gt; &#39;U (requires member Sqrt)</div>
-<div class="fsdocs-tip" id="fs88">val forall : predicate:(&#39;T -&gt; bool) -&gt; list:&#39;T list -&gt; bool</div>
-<div class="fsdocs-tip" id="fs89">val allPrimes : seq&lt;bigint&gt;</div>
-<div class="fsdocs-tip" id="fs90">val allPrimes&#39; : (int -&gt; seq&lt;bigint&gt;)</div>
-<div class="fsdocs-tip" id="fs91">val fibonacci : seq&lt;BigInteger&gt;</div>
-<div class="fsdocs-tip" id="fs92">val unfold : generator:(&#39;State -&gt; (&#39;T * &#39;State) option) -&gt; state:&#39;State -&gt; seq&lt;&#39;T&gt;</div>
-<div class="fsdocs-tip" id="fs93">val x : BigInteger</div>
-<div class="fsdocs-tip" id="fs94">val y : BigInteger</div>
-<div class="fsdocs-tip" id="fs95">union case Option.Some: Value: &#39;T -&gt; Option&lt;&#39;T&gt;</div>
+<div class="fsdocs-tip" id="fs86">val sqrt : value:&#39;T -&gt; &#39;U (requires member Sqrt)</div>
+<div class="fsdocs-tip" id="fs87">val forall : predicate:(&#39;T -&gt; bool) -&gt; list:&#39;T list -&gt; bool</div>
+<div class="fsdocs-tip" id="fs88">val primes : seq&lt;bigint&gt;</div>
+<div class="fsdocs-tip" id="fs89">val primes&#39; : (int -&gt; seq&lt;bigint&gt;)</div>
+<div class="fsdocs-tip" id="fs90">val fibonacci : seq&lt;BigInteger&gt;</div>
+<div class="fsdocs-tip" id="fs91">val unfold : generator:(&#39;State -&gt; (&#39;T * &#39;State) option) -&gt; state:&#39;State -&gt; seq&lt;&#39;T&gt;</div>
+<div class="fsdocs-tip" id="fs92">val x : BigInteger</div>
+<div class="fsdocs-tip" id="fs93">val y : BigInteger</div>
+<div class="fsdocs-tip" id="fs94">union case Option.Some: Value: &#39;T -&gt; Option&lt;&#39;T&gt;</div>
+<div class="fsdocs-tip" id="fs95">val nextPascalrow : l:bigint list -&gt; bigint list</div>
+<div class="fsdocs-tip" id="fs96">val l : bigint list</div>
+<div class="fsdocs-tip" id="fs97">val h : bigint</div>
+<div class="fsdocs-tip" id="fs98">val t : bigint list</div>
+<div class="fsdocs-tip" id="fs99">property List.Head: bigint with get</div>
+<div class="fsdocs-tip" id="fs100">val pascalsTriangle : n:int -&gt; bigint list list</div>
+<div class="fsdocs-tip" id="fs101">val scan : folder:(&#39;State -&gt; &#39;T -&gt; &#39;State) -&gt; state:&#39;State -&gt; list:&#39;T list -&gt; &#39;State list</div>
+<div class="fsdocs-tip" id="fs102">val pascalsTriangleRow : seq&lt;bigint&gt;</div>
+<div class="fsdocs-tip" id="fs103">val last : list:&#39;T list -&gt; &#39;T</div>
+<div class="fsdocs-tip" id="fs104">val toSeq : list:&#39;T list -&gt; seq&lt;&#39;T&gt;</div>
 
         </div>
     </div>
